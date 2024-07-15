@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, readById, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 14 - Get by Id';
+const VERSION = 'CRUD 14 - Get by Id, paramters log';
 const metaData = {
   VERSION
 };
@@ -18,7 +18,7 @@ export default async ({ req, res, log, error }) => {
   }
 
   const parameters = req.path.split('/');
-  log('parameters: ', parameters);
+  log('parameters: ' + parameters);
 
   if (req.method === 'POST') {
     const { payload, action } = JSON.parse(req.body);
