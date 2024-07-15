@@ -1,6 +1,6 @@
 import { Client, Databases, ID } from 'node-appwrite';
 
-const VERSION = 'CRUD 2';
+const VERSION = 'CRUD 1';
 const metaData = {
   VERSION
 };
