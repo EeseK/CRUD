@@ -1,0 +1,11 @@
+{
+  "name": "handle-reservation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/handleReservation.js",
+  "type": "module",
+  "dependencies": {
+    "node-appwrite": "^9.0.0",
+    "openai": "^4.38.5"
+  }
+}
