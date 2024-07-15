@@ -71,7 +71,8 @@ const readById = async (id, collectionId) => {
       return getResponseOK({ metaData, data:{} });
   } catch (errorData) {
       error('result: ' + toString(result));
-      return getResponseError('getDocumentById', errorData);
+      log('Error result: ' + toString(result));
+      return getResponseError('readById', errorData);
   }
 };
 
