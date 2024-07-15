@@ -40,7 +40,7 @@ const getAllReservationList = async () => {
     const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
 
     const filteredDocuments = documents.map(doc => ({
-      $id: doc.$id,
+      id: doc.$id,
       name: doc.name
     }));
     const data = filteredDocuments;
