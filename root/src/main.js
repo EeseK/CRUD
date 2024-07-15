@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 6';
+const VERSION = 'CRUD 7 - Create';
 const metaData = {
   VERSION
 };
@@ -15,6 +15,13 @@ export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION)
     return getResponseNotContent();
+  }
+
+  if (req.method === 'POST') {
+    const { payload, action } = JSON.parse(req.body);
+    if (!action) {
+      return await create(payload);
+    }
   }
 
   if (req.method === 'GET') {

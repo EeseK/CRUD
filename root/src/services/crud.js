@@ -17,24 +17,23 @@ import { getResponseOK, getResponseError } from '../responses/responses.js'
 
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
-
+    log('Create');
     try {
-        const appwriteResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
+        const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
+        log('rawResult: ' + JSON.stringify(rawResult, null, 2));
+        log('documentId: ' + documentId);
         const data = {
-        appwriteResult,
-        documentId
+          documentId
         };
+        metaData.rawResult = rawResult;
         return getResponseOK({ metaData, data });
     } catch (errorData) {
+        error(JSON.stringify(errorData));
         return getResponseError('createDocument', errorData);
     }
 };
 
 const readAll = async (collectionId) => {
-  log('readAll')
-  log('DB_ID' + DB_ID);
-  log('DATABASE' + JSON.stringify(DATABASE, null, 2));
-
     try {
       log('try');
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
@@ -50,9 +49,7 @@ const readAll = async (collectionId) => {
 
         return getResponseOK({ metaData, data });
     } catch (errorData) {
-      log('error :(');
-        log('readAll Error'+JSON.stringify(errorData));
-        error(JSON.stringify(errorData))
+        error(JSON.stringify(errorData));
         return getResponseError('readAll', errorData);
     }
 };
