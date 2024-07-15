@@ -2,18 +2,15 @@ import { Client, Databases, ID } from 'node-appwrite';
 
 import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
-const VERSION = 'FETCH 16';
+const VERSION = 'FETCH 17';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
-const COLLECTION_ID = process.env.COLLECTION_ID;
 const COLLECTION_GROUP_ID = process.env.COLLECTION_GROUP_ID;
-const OPEN_API_KEY = process.env.OPEN_API_KEY;
 
 const CLIENT = new Client();
 CLIENT
   .setEndpoint('https://cloud.appwrite.io/v1')
-  .setProject(PROJECT_ID)
-  .setKey(OPEN_API_KEY); // Ensure the API key is set
+  .setProject(PROJECT_ID);
 
 const DATABASE = new Databases(CLIENT);
 
@@ -67,7 +64,7 @@ const createDocument = async (payload) => {
 
 const getDocumentById = async (id) => {
   try {
-    const data = await DATABASE.getDocument(DB_ID, COLLECTION_ID, id);
+    const data = await DATABASE.getDocument(DB_ID, COLLECTION_GROUP_ID, id);
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
@@ -77,7 +74,7 @@ const getDocumentById = async (id) => {
 
 const updateDocument = async (id, payload) => {
   try {
-    const data = await DATABASE.updateDocument(DB_ID, COLLECTION_ID, id, payload);
+    const data = await DATABASE.updateDocument(DB_ID, COLLECTION_GROUP_ID, id, payload);
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
@@ -87,7 +84,7 @@ const updateDocument = async (id, payload) => {
 
 const deleteDocument = async (id) => {
   try {
-    const data = await DATABASE.deleteDocument(DB_ID, COLLECTION_ID, id);
+    const data = await DATABASE.deleteDocument(DB_ID, COLLECTION_GROUP_ID, id);
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
