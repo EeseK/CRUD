@@ -112,7 +112,9 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET: ' + VERSION)
-    return await getAllReservationList();
+    const response = await getAllReservationList();
+    log(JSON.stringify(response, null, 2));
+    return response
   }
 
   if (req.method === 'PUT') {
