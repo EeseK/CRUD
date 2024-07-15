@@ -19,6 +19,13 @@ function setLogAndError(logToSet, errorToSet){
 
 import { getResponseOK, getResponseError } from '../responses/responses.js'
 
+/*
+{
+  "payload": {
+    "name": "TEST-1"
+  }
+}
+*/
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
     log('Create');
