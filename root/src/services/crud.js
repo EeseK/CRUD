@@ -38,7 +38,7 @@ const create = async (payload, collectionId) => {
         log('rawResult: ' +toString(rawResult));
         log('documentId: ' + documentId);
         const data = {
-          documentId,
+          id: rawResult.$id,
           name: rawResult.name
         };
         log('data: ' + toString(data));
