@@ -15,7 +15,8 @@ export default async ({ req, res, log, error }) => {
     return getResponseNotContent();
   }
 
-  if (req.method === 'GET') {    
+  if (req.method === 'GET') {
+    log('GET');
     const response = await readAll(COLLECTION_GROUP_ID);
     return response;
   }

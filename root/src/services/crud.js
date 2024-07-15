@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from '../config/database.js'
 import { ID } from 'node-appwrite';
 
 const metaData = {
-    VERSION: 'CRUD 1'
+    VERSION: 'readAll 1'
 }
 
 import { getResponseOK, getResponseError } from '../responses/responses.js'
@@ -23,16 +23,23 @@ const create = async (payload, collectionId) => {
 };
 
 const readAll = async (collectionId) => {
+  log('readAll')
     try {
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
+        log('documents '+JSON.stringify(documents));
 
         const filteredDocuments = documents.map(doc => ({
         id: doc.$id,
         name: doc.name
         }));
+
         const data = filteredDocuments;
+        log('documents '+JSON.stringify(data));
+
         return getResponseOK({ metaData, data });
     } catch (errorData) {
+        log('readAll Error'+JSON.stringify(errorData));
+        error(JSON.stringify(errorData))
         return getResponseError('readAll', errorData);
     }
 };
