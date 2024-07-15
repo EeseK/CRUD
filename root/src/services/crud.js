@@ -62,14 +62,15 @@ const readById = async (id, collectionId) => {
     log('CALL TO DATABASE')
       const result = await DATABASE.getDocument(DB_ID, collectionId, id);
       log('result: ' + toString(result));
-      /*
+    
       const data = {
         id: result.$id,
         name: result.name
       }
-      */
+      
       return getResponseOK({ metaData, data:{} });
   } catch (errorData) {
+      error('result: ' + toString(result));
       return getResponseError('getDocumentById', errorData);
   }
 };

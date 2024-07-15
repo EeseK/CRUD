@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, readById, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 14 - Get by Id - non existing ID';
+const VERSION = 'CRUD 14 - Get by Id - non existing ID - 2';
 const metaData = {
   VERSION
 };
