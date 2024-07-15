@@ -1,7 +1,6 @@
-import { Client, Databases, ID } from 'node-appwrite';
+import { CLIENT } from './config/client.js'
 
-import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create, readAll } from './services/crud.js'
+import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
 export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
@@ -16,7 +15,7 @@ export default async ({ req, res, log, error }) => {
     const response = await readAll(COLLECTION_GROUP_ID);
     log('response:'+JSON.stringify(response, null, 2));
     */
-    const response = '1. GET'
+    const response = '1. GET: Up the Irons!'
     return response
   }
   /*
