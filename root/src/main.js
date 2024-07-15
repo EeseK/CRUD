@@ -5,6 +5,7 @@ import { getResponseNotContent, getResponseNotAllowed } from './responses/respon
 const VERSION = 'CRUD 1';
 
 export default async ({ req, res, log, error }) => {
+  log('Up the Irons!')
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION);
     return getResponseNotContent();
