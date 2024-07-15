@@ -68,16 +68,18 @@ const readById = async (id, collectionId) => {
         name: result.name
       }
       return getResponseOK({ metaData, data:{} });
-      
-  } catch (errorData) {
-      error('errorData: ' + toString(errorData));
-      log('errorData: ' + toString(errorData));
 
-      const isNotFound = 404 == errorData.code;
-      if(isNotFound){
-        return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
-      }else{
-        return getResponseError(toString(errorData), errorData);
+  } catch (errorData) {
+    log('errorData: ' + toString(errorData));
+    const isNotFound = 404 == errorData.code;
+    log('isNotFound: ' + isNotFound);
+
+    if(isNotFound){
+      log('Document not found');
+      return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
+    }else{
+        error('errorData: ' + toString(errorData));
+        return getResponseError(toString(errorData), errorData)
       }
   }
 };
