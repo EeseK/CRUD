@@ -1,9 +1,9 @@
 import { Client, Databases, ID } from 'node-appwrite';
 
 import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create } from './services/crud.js'
+import { create, readAll } from './services/crud.js'
 
-const VERSION = 'FETCH 18';
+const VERSION = 'FETCH 20';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
 const COLLECTION_GROUP_ID = process.env.COLLECTION_GROUP_ID;
@@ -14,25 +14,6 @@ CLIENT
   .setProject(PROJECT_ID);
 
 const DATABASE = new Databases(CLIENT);
-
-const metaData = {
-  VERSION
-};
-
-const readAll = async () => {
-  try {
-    const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
-
-    const filteredDocuments = documents.map(doc => ({
-      id: doc.$id,
-      name: doc.name
-    }));
-    const data = filteredDocuments;
-    return getResponseOK({ metaData, data });
-  } catch (errorData) {
-    return getResponseError('readAll', errorData);
-  }
-};
 
 const createDocument = async (payload) => {
   const documentId = ID.unique();
@@ -87,21 +68,14 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'POST') {
     const { payload, action } = JSON.parse(req.body);
-    log('1. POST!!!')
     if (!action) {
-      log('CALL CREATE DOCUMENT')
-      log(JSON.stringify(req.body, null, 2))
-      log('Payload:' + JSON.stringify(payload, null, 2));
-      log('COLLECTION_GROUP_ID: ' + COLLECTION_GROUP_ID);
       return await createDocument(payload);
     }
-    log('NOTHING TO DO')
-    // Additional POST actions here...
   }
 
   if (req.method === 'GET') {
     log('GET: ' + VERSION);
-    const response = await readAll();
+    const response = await readAll(COLLECTION_GROUP_ID);
     log('response:'+JSON.stringify(response, null, 2));
     return response
   }
