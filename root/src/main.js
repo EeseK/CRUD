@@ -17,7 +17,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET');
-    //const response = await readAll(COLLECTION_GROUP_ID, log, error);
+    const response = await readAll(COLLECTION_GROUP_ID, log, error);
     return res.send('UP the IRONS!');
   }
   /*

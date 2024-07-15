@@ -26,7 +26,9 @@ const readAll = async (collectionId, log, error) => {
   log('readAll')
   log('DB_ID' + DB_ID);
   log('DATABASE' + JSON.stringify(DATABASE, null, 2));
+
     try {
+      log('try');
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
         log('documents '+JSON.stringify(documents));
 
@@ -40,6 +42,7 @@ const readAll = async (collectionId, log, error) => {
 
         return getResponseOK({ metaData, data });
     } catch (errorData) {
+      log('error :(');
         log('readAll Error'+JSON.stringify(errorData));
         error(JSON.stringify(errorData))
         return getResponseError('readAll', errorData);
