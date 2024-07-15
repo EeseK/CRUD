@@ -1,13 +1,15 @@
 import { CLIENT } from './config/client.js'
 
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
+import { readAll } from './services/crud.js'
 
-const VERSION = 'CRUD 2';
+
+const VERSION = 'CRUD 3';
 const COLLECTION_GROUP_ID = 'group';
 
 export default async ({ req, res, log, error }) => {
   log('VERSION: ' + VERSION);
-  
+
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION);
     return getResponseNotContent();
