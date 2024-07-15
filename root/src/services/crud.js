@@ -24,6 +24,7 @@ const create = async (payload, collectionId) => {
 
 const readAll = async (collectionId, log, error) => {
   log('readAll')
+  log('DB_ID' + DB_ID);
     try {
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
         log('documents '+JSON.stringify(documents));
