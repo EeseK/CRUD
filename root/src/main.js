@@ -5,8 +5,8 @@ const metaData = {
   VERSION
 };
 
-const PROJECT_ID = process.env.PROJECT_ID;
-const DB_ID = process.env.DB_ID;
+const PROJECT_ID = '6694de2d0012a80a218a';
+const DB_ID = 'groups';
 const COLLECTION_GROUP_ID = 'group';
 
 const CLIENT = new Client();
