@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 8 - Create';
+const VERSION = 'CRUD 10 - Create';
 const metaData = {
   VERSION
 };
@@ -11,7 +11,7 @@ const COLLECTION_GROUP_ID = 'group';
 
 export default async ({ req, res, log, error }) => {
   setLogAndError(log, error);
-
+  log('VERSION: ' + VERSION)
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION)
     return getResponseNotContent();
@@ -25,7 +25,7 @@ export default async ({ req, res, log, error }) => {
   }
 
   if (req.method === 'GET') {
-    log('GET: ' + VERSION)
+    
     return await readAll( COLLECTION_GROUP_ID );
   }
 
