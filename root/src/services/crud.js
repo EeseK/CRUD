@@ -1,5 +1,14 @@
-import { DATABASE, DB_ID } from '../config/database.js'
-import { ID } from 'node-appwrite';
+import { Client, Databases, ID } from 'node-appwrite';
+
+const PROJECT_ID = process.env.PROJECT_ID;
+const CLIENT = new Client();
+
+CLIENT
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject(PROJECT_ID);
+
+const DB_ID = 'groups';
+const DATABASE = new Databases(CLIENT);
 
 const metaData = {
     VERSION: 'readAll 1'

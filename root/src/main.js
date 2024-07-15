@@ -1,5 +1,3 @@
-import { CLIENT } from './config/client.js'
-
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { readAll } from './services/crud.js'
 
