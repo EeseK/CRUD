@@ -22,7 +22,7 @@ const create = async (payload, collectionId) => {
     }
 };
 
-const readAll = async (collectionId) => {
+const readAll = async (collectionId, log, error) => {
   log('readAll')
     try {
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
