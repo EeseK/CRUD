@@ -4,19 +4,20 @@ const VERSION = 'CRUD 2';
 const metaData = {
   VERSION
 };
-// 
-const ETERNAL_API_KEY = process.env.ETERNAL_API_KEY;
+
 const PROJECT_ID = process.env.PROJECT_ID;
-const DB_ID = process.env.DB_ID;
-const COLLECTION_GROUP_ID = 'group';
+const ETERNAL_API_KEY = process.env.ETERNAL_API_KEY;
 
 const CLIENT = new Client();
 CLIENT
-  .setEndpoint('https://cloud.appwrite.io/v1')
-  .setProject(PROJECT_ID)
-  .setKey(ETERNAL_API_KEY)
+.setEndpoint('https://cloud.appwrite.io/v1')
+.setProject(PROJECT_ID)
+.setKey(ETERNAL_API_KEY)
 
 const DATABASE = new Databases(CLIENT);
+
+const DB_ID = process.env.DB_ID;
+const COLLECTION_GROUP_ID = 'group';
 
 const defaultHeaders = {
   'Content-Type': 'application/json',
