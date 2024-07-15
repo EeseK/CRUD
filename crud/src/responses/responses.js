@@ -9,7 +9,7 @@ const defaultHeaders = {
 const STATUS_OK                 = 200;
 const STATUS_ERROR              = 500;
 const STATUS_NO_CONTENT         = 204;
-const STATUS_METHOD_NOT_ALLOWED = 204;
+const STATUS_METHOD_NOT_ALLOWED = 405;
 
 const createResponse = (statusCode, body, additionalHeaders = {}) => ({
   statusCode,

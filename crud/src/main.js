@@ -35,7 +35,7 @@ const createResponse = (statusCode, body, additionalHeaders = {}) => ({
   body: JSON.stringify(body),
 });
 
-const getAllReservationList = async () => {
+const readAll = async () => {
   try {
     const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
 
@@ -46,7 +46,7 @@ const getAllReservationList = async () => {
     const data = filteredDocuments;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'getAllReservationList', details: errorData });
+    return createResponse(500, { error: 'readAll', details: errorData });
   }
 };
 
@@ -117,7 +117,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET: ' + VERSION);
-    const response = await getAllReservationList();
+    const response = await readAll();
     log('response:'+JSON.stringify(response, null, 2));
     return response
   }
