@@ -38,7 +38,12 @@ const createResponse = (statusCode, body, additionalHeaders = {}) => ({
 const getAllReservationList = async () => {
   try {
     const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
-    const data = documents;
+
+    const filteredDocuments = documents.map(doc => ({
+      $id: doc.$id,
+      name: doc.name
+    }));
+    const data = filteredDocuments;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
     return createResponse(500, { error: 'getAllReservationList', details: errorData });
