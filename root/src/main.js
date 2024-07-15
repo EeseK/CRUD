@@ -80,7 +80,7 @@ export default async ({ req, res, log, error }) => {
     const response = await readAll(COLLECTION_GROUP_ID);
     log('response:'+JSON.stringify(response, null, 2));
     */
-   response = 'UP THE IRONS!'
+   const response = '1. GET'
     return response
   }
 
