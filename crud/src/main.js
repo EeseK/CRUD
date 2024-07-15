@@ -75,6 +75,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET: ' + VERSION);
+    log('PATH: ' + req.path);
     const response = await readAll(COLLECTION_GROUP_ID);
     log('response:'+JSON.stringify(response, null, 2));
     return response
