@@ -1,3 +1,5 @@
+
+
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { readAll } from './services/crud.js'
 
@@ -15,8 +17,8 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET');
-    const response = await readAll(COLLECTION_GROUP_ID, log, error);
-    return response;
+    //const response = await readAll(COLLECTION_GROUP_ID, log, error);
+    return res.send('UP the IRONS!');
   }
   /*
   if (req.method === 'POST') {
