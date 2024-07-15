@@ -18,7 +18,7 @@ const createResponse = (statusCode, body, additionalHeaders = {}) => ({
 });
 
 const getResponseOK         = (body, additionalHeaders = {}) => createResponse(STATUS_OK,                 body, additionalHeaders);
-const getResponseError      = (body, additionalHeaders = {}) => createResponse(STATUS_ERROR,              body, additionalHeaders);
+const getResponseError      = (description, errorObj, additionalHeaders = {}) => createResponse(STATUS_ERROR,  {description, errorObj:JSON.stringify(errorObj, null, 2)}, additionalHeaders);
 const getResponseNotContent = (body, additionalHeaders = {}) => createResponse(STATUS_NO_CONTENT,         body, additionalHeaders);
 const getResponseNotAllowed = (body, additionalHeaders = {}) => createResponse(STATUS_METHOD_NOT_ALLOWED, body, additionalHeaders);
 

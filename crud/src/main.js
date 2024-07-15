@@ -2,7 +2,7 @@ import { Client, Databases, ID } from 'node-appwrite';
 
 import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
-const VERSION = 'FETCH 17';
+const VERSION = 'FETCH 18';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
 const COLLECTION_GROUP_ID = process.env.COLLECTION_GROUP_ID;
@@ -14,23 +14,9 @@ CLIENT
 
 const DATABASE = new Databases(CLIENT);
 
-const defaultHeaders = {
-  'Content-Type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Access-Control-Allow-Credentials': 'true',
-};
-
 const metaData = {
   VERSION
 };
-
-const createResponse = (statusCode, body, additionalHeaders = {}) => ({
-  statusCode,
-  headers: { ...defaultHeaders, ...additionalHeaders },
-  body: JSON.stringify(body),
-});
 
 const readAll = async () => {
   try {
@@ -43,7 +29,7 @@ const readAll = async () => {
     const data = filteredDocuments;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'readAll', details: errorData });
+    return getResponseError('readAll', errorData);
   }
 };
 
@@ -58,7 +44,7 @@ const createDocument = async (payload) => {
     };
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'createDocument', details: JSON.stringify(errorData, null, 2) });
+    return getResponseError('createDocument', errorData);
   }
 };
 
@@ -68,7 +54,7 @@ const getDocumentById = async (id) => {
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'getDocumentById', details: errorData });
+    return getResponseError('getDocumentById', errorData);
   }
 };
 
@@ -78,7 +64,7 @@ const updateDocument = async (id, payload) => {
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'updateDocument', details: errorData });
+    return getResponseError('updateDocument', errorData);
   }
 };
 
@@ -88,14 +74,14 @@ const deleteDocument = async (id) => {
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return createResponse(500, { error: 'deleteDocument', details: errorData });
+    return getResponseError('deleteDocument', errorData);
   }
 };
 
 export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION);
-    return createResponse(204, '');
+    return getResponseNotContent();
   }
 
   if (req.method === 'POST') {
@@ -134,5 +120,5 @@ export default async ({ req, res, log, error }) => {
     return await deleteDocument(id);
   }
 
-  return createResponse(405, { error: 'Method not allowed' });
+  return getResponseNotAllowed();
 };
