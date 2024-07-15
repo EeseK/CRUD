@@ -17,7 +17,7 @@ function setLogAndError(logToSet, errorToSet){
   error = errorToSet;
 }
 
-import { getResponseOK, getResponseError } from '../responses/responses.js'
+import { getResponseOK, getResponseError, getResponseNotFound } from '../responses/responses.js'
 
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
@@ -67,12 +67,18 @@ const readById = async (id, collectionId) => {
         id: result.$id,
         name: result.name
       }
-      
       return getResponseOK({ metaData, data:{} });
+      
   } catch (errorData) {
       error('errorData: ' + toString(errorData));
       log('errorData: ' + toString(errorData));
-      return getResponseError('readById', errorData);
+
+      const isNotFound = 404 == errorData.code;
+      if(isNotFound){
+        return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
+      }else{
+        return getResponseError(toString(errorData), errorData);
+      }
   }
 };
 
