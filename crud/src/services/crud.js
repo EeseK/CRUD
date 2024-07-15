@@ -5,7 +5,7 @@ const metaData = {
     VERSION: 'CRUD 1'
 }
 
-import { getResponseOK, getResponseError } from '../../responses/responses.js'
+import { getResponseOK, getResponseError } from '../responses/responses.js'
 
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
