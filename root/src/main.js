@@ -2,6 +2,8 @@ import { CLIENT } from './config/client.js'
 
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
+const VERSION = 'CRUD 1';
+
 export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION);
