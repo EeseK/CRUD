@@ -3,6 +3,7 @@ import { CLIENT } from './config/client.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
 const VERSION = 'CRUD 1';
+const COLLECTION_GROUP_ID = 'group';
 
 export default async ({ req, res, log, error }) => {
   log('Up the Irons!')
@@ -11,14 +12,9 @@ export default async ({ req, res, log, error }) => {
     return getResponseNotContent();
   }
 
-  if (req.method === 'GET') {
-    log('GET: ' + VERSION);
-    log('PATH: ' + req.path);
-    
-    //const response = await readAll(COLLECTION_GROUP_ID);
-    
-
-    return res.send('Up the Irons!');
+  if (req.method === 'GET') {    
+    const response = await readAll(COLLECTION_GROUP_ID);
+    return response;
   }
   /*
   if (req.method === 'POST') {
