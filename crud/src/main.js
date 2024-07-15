@@ -2,7 +2,7 @@ import { Client, Databases, ID } from 'node-appwrite';
 
 import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
-const VERSION = 'FETCH 15';
+const VERSION = 'FETCH 16';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
 const COLLECTION_ID = process.env.COLLECTION_ID;
@@ -92,7 +92,7 @@ const deleteDocument = async (id) => {
 
 export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
-    log('OPTIONS: ' + VERSION)
+    log('OPTIONS: ' + VERSION);
     return createResponse(204, '');
   }
 
@@ -111,9 +111,9 @@ export default async ({ req, res, log, error }) => {
   }
 
   if (req.method === 'GET') {
-    log('GET: ' + VERSION)
+    log('GET: ' + VERSION);
     const response = await getAllReservationList();
-    log(JSON.stringify(response, null, 2));
+    log('response:'+JSON.stringify(response, null, 2));
     return response
   }
 
