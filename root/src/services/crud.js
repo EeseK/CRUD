@@ -5,6 +5,10 @@ const metaData = {
     VERSION: 'readAll 1'
 }
 
+function toString(object){
+  return JSON.stringify(object, null, 2);
+}
+
 let log = ()=>{};
 let error = ()=>{};
 
@@ -21,10 +25,10 @@ const create = async (payload, collectionId) => {
     log('DB_ID ' + DB_ID);
     log('collectionId ' + collectionId);
     log('documentId ' + documentId);
-    log('payload ' + payload);
+    log('payload ' + toString(payload));
     try {
         const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
-        log('rawResult: ' + JSON.stringify(rawResult, null, 2));
+        log('rawResult: ' +toString(rawResult));
         log('documentId: ' + documentId);
         const data = {
           documentId
@@ -32,7 +36,7 @@ const create = async (payload, collectionId) => {
         metaData.rawResult = rawResult;
         return getResponseOK({ metaData, data });
     } catch (errorData) {
-        error(JSON.stringify(errorData));
+        error('Error: ' + toString(errorData));
         return getResponseError('createDocument', errorData);
     }
 };
