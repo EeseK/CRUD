@@ -3,10 +3,10 @@ import { Client, Databases, ID } from 'node-appwrite';
 import { getResponseOK, getResponseError, getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll } from './services/crud.js'
 
-const VERSION = 'FETCH 20';
+const VERSION = 'FETCH 21';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
-const COLLECTION_GROUP_ID = process.env.COLLECTION_GROUP_ID;
+const COLLECTION_GROUP_ID = 'group';
 
 const CLIENT = new Client();
 CLIENT
