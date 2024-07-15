@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, readById, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 14 - Get by Id - 2';
+const VERSION = 'CRUD 14 - Get by Id - 3';
 const metaData = {
   VERSION
 };
@@ -27,9 +27,13 @@ export default async ({ req, res, log, error }) => {
   
   if (req.method === 'GET') {
     const { none, collection, id } = parameters;
+    log('colection: ' + collection);
+    log('id: ' + id);
     if(null == id){
+      log('readAll');
       return await readAll( COLLECTION_GROUP_ID );
     }else{
+      log('readById');
       return await readById(id, COLLECTION_GROUP_ID);
     }
   }
