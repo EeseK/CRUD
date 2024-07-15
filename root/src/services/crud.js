@@ -56,15 +56,20 @@ const readAll = async (collectionId) => {
 };
 
 /*
-{
-  "action": "read"
-  "id":"66958f8c1de5ca1dd3e1",
-}
+/group/66958f8c1de5ca1dd3e1
 */
 const readById = async (id, collectionId) => {
   try {
-      const data = await DATABASE.getDocument(DB_ID, collectionId, id);
-      data.requestedId = id;
+    log('readById');
+    log('DB_ID ' + DB_ID);
+    log('collectionId ' + collectionId);
+    log('id ' + id);
+      const result = await DATABASE.getDocument(DB_ID, collectionId, id);
+      log('result: ' + toString(result));
+      const data = {
+        id: result.$id,
+        name: result.name
+      }
       return getResponseOK({ metaData, data });
   } catch (errorData) {
       return getResponseError('getDocumentById', errorData);
@@ -73,11 +78,6 @@ const readById = async (id, collectionId) => {
 
 
 const update = async (id, payload, collectionId) => {
-  log('Update');
-  log('DB_ID ' + DB_ID);
-  log('collectionId ' + collectionId);
-  log('id ' + id);
-  log('payload ' + toString(payload));
 
   try {
     const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
