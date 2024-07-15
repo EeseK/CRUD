@@ -37,7 +37,7 @@ const createResponse = (statusCode, body, additionalHeaders = {}) => ({
 
 const getAllReservationList = async () => {
   try {
-    const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_ID);
+    const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
     const data = documents;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
