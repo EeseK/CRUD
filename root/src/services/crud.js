@@ -18,6 +18,10 @@ import { getResponseOK, getResponseError } from '../responses/responses.js'
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
     log('Create');
+    log('DB_ID ' + DB_ID);
+    log('collectionId ' + collectionId);
+    log('documentId ' + documentId);
+    log('payload ' + payload);
     try {
         const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
         log('rawResult: ' + JSON.stringify(rawResult, null, 2));
@@ -35,7 +39,6 @@ const create = async (payload, collectionId) => {
 
 const readAll = async (collectionId) => {
     try {
-      log('try');
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
         log('documents '+JSON.stringify(documents));
 
