@@ -40,7 +40,7 @@ const getResponseError      = (description, errorObj={}, additionalHeaders = {})
 const getResponseNotContent = (body='', additionalHeaders = {}) => createResponse(STATUS_NO_CONTENT,         body, additionalHeaders);
 const getResponseNotAllowed = (body, additionalHeaders = {}) => createResponse(STATUS_METHOD_NOT_ALLOWED, body, additionalHeaders);
 
-const getAllReservationList = async (log) => {
+const getAllGroups = async (log) => {
   try {
     log('try')
     const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
@@ -48,11 +48,17 @@ const getAllReservationList = async (log) => {
     return getResponseOK({ metaData, data });
   } catch (errorData) {
     log('error' + JSON.stringify(errorData, null, 2));
-    return getResponseError('getAllReservationList',errorData);
+    return getResponseError('getAllGroups',errorData);
   }
 };
 
 export default async ({ req, res, log, error }) => {
+  log('PROJECT_ID', PROJECT_ID);
+  log('DB_ID', DB_ID);
+  log('COLLECTION_GROUP_ID', COLLECTION_GROUP_ID);
+  log('CLIENT', JSON.stringify(CLIENT, null, 2));
+  log('DATABASE', JSON.stringify(DATABASE, null, 2));
+
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION)
     return getResponseNotContent();
@@ -60,7 +66,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET: ' + VERSION)
-    return await getAllReservationList(log);
+    return await getAllGroups(log);
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });
