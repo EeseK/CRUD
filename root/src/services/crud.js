@@ -31,7 +31,7 @@ const create = async (payload, collectionId) => {
     log('Create');
     log('DB_ID ' + DB_ID);
     log('collectionId ' + collectionId);
-    log('documentId ' + documentId);
+    log('documentId ' + toString(documentId));
     log('payload ' + toString(payload));
     try {
         const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
