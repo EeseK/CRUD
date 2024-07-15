@@ -5,8 +5,8 @@ const metaData = {
   VERSION
 };
 
-const PROJECT_ID = '6694de2d0012a80a218a';
-const DB_ID = 'groups';
+const PROJECT_ID = process.env.PROJECT_ID;
+const DB_ID = process.env.DB_ID;
 const COLLECTION_GROUP_ID = 'group';
 
 const CLIENT = new Client();
@@ -53,11 +53,11 @@ const getAllGroups = async (log) => {
 };
 
 export default async ({ req, res, log, error }) => {
-  log('PROJECT_ID', PROJECT_ID);
-  log('DB_ID', DB_ID);
-  log('COLLECTION_GROUP_ID', COLLECTION_GROUP_ID);
-  log('CLIENT', JSON.stringify(CLIENT, null, 2));
-  log('DATABASE', JSON.stringify(DATABASE, null, 2));
+  log('PROJECT_ID: '+ PROJECT_ID);
+  log('DB_ID: ' + DB_ID);
+  log('COLLECTION_GROUP_ID: ' + COLLECTION_GROUP_ID);
+  log('CLIENT: ' + JSON.stringify(CLIENT, null, 2));
+  log('DATABASE:' + JSON.stringify(DATABASE, null, 2));
 
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION)
