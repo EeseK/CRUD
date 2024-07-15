@@ -38,9 +38,10 @@ const create = async (payload, collectionId) => {
         log('rawResult: ' +toString(rawResult));
         log('documentId: ' + documentId);
         const data = {
-          documentId
+          documentId,
+          name: rawResult.name
         };
-        metaData.rawResult = rawResult;
+        log('data: ' + toString(data));
         return getResponseOK({ metaData, data });
     } catch (errorData) {
         error('Error: ' + toString(errorData));
