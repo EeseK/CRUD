@@ -1,4 +1,4 @@
-import { Client, Databases, ID } from 'node-appwrite';
+import { Client, Databases } from 'node-appwrite';
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
 

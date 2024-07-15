@@ -1,4 +1,4 @@
-import { DATABASE, DB_ID } from '../../database/database.js'
+import { DATABASE, DB_ID } from '../database/database.js'
 import { ID } from 'node-appwrite';
 
 const metaData = {
