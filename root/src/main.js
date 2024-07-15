@@ -2,11 +2,12 @@ import { CLIENT } from './config/client.js'
 
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 
-const VERSION = 'CRUD 1';
+const VERSION = 'CRUD 2';
 const COLLECTION_GROUP_ID = 'group';
 
 export default async ({ req, res, log, error }) => {
-  log('Up the Irons!')
+  log('VERSION: ' + VERSION);
+  
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION);
     return getResponseNotContent();
