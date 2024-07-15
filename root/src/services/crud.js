@@ -5,6 +5,14 @@ const metaData = {
     VERSION: 'readAll 1'
 }
 
+let log = ()=>{};
+let error = ()=>{};
+
+function setLogAndError(logToSet, errorToSet){
+  log   = logToSet;
+  error = errorToSet;
+}
+
 import { getResponseOK, getResponseError } from '../responses/responses.js'
 
 const create = async (payload, collectionId) => {
@@ -22,7 +30,7 @@ const create = async (payload, collectionId) => {
     }
 };
 
-const readAll = async (collectionId, log, error) => {
+const readAll = async (collectionId) => {
   log('readAll')
   log('DB_ID' + DB_ID);
   log('DATABASE' + JSON.stringify(DATABASE, null, 2));
@@ -80,6 +88,7 @@ const readById = async (id, collectionId) => {
   };
 
   export { 
+            setLogAndError,
             create,
             readAll, 
             readById,
