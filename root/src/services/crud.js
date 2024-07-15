@@ -38,16 +38,11 @@ const create = async (payload, collectionId) => {
 const readAll = async (collectionId) => {
     try {
         const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
-        log('documents '+JSON.stringify(documents));
-
         const filteredDocuments = documents.map(doc => ({
         id: doc.$id,
         name: doc.name
         }));
-
         const data = filteredDocuments;
-        log('documents '+JSON.stringify(data));
-
         return getResponseOK({ metaData, data });
     } catch (errorData) {
         error(JSON.stringify(errorData));
