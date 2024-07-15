@@ -1,8 +1,8 @@
 import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create, readAll, setLogAndError } from './services/crud.js'
+import { create, readAll, readById, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 12 - Create: id on return';
+const VERSION = 'CRUD 14 - Get by Id';
 const metaData = {
   VERSION
 };
@@ -17,6 +17,9 @@ export default async ({ req, res, log, error }) => {
     return getResponseNotContent();
   }
 
+  const parameters = req.path.split('/');
+  log('parameters: ', parameters);
+
   if (req.method === 'POST') {
     const { payload, action } = JSON.parse(req.body);
     if (!action) {
@@ -25,8 +28,17 @@ export default async ({ req, res, log, error }) => {
   }
 
   if (req.method === 'GET') {
-    
     return await readAll( COLLECTION_GROUP_ID );
+  }
+
+  if (req.method === 'PUT') {
+    const { id, payload, action } = JSON.parse(req.body);
+    if (action === 'read') {
+      return await readById(id, COLLECTION_GROUP_ID);
+    }
+    if (action === 'update') {
+      return await updateDocument(id, payload);
+    }
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });

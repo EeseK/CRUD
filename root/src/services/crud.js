@@ -19,24 +19,10 @@ function setLogAndError(logToSet, errorToSet){
 
 import { getResponseOK, getResponseError } from '../responses/responses.js'
 
-/*
-{
-  "payload": {
-    "name": "TEST-1"
-  }
-}
-*/
 const create = async (payload, collectionId) => {
     const documentId = ID.unique();
-    log('Create');
-    log('DB_ID ' + DB_ID);
-    log('collectionId ' + collectionId);
-    log('documentId ' + toString(documentId));
-    log('payload ' + toString(payload));
     try {
         const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
-        log('rawResult: ' +toString(rawResult));
-        log('documentId: ' + documentId);
         const data = {
           id: rawResult.$id,
           name: rawResult.name
@@ -69,25 +55,38 @@ const readAll = async (collectionId) => {
     }
 };
 
+/*
+{
+  "action": "read"
+  "id":"66958f8c1de5ca1dd3e1",
+}
+*/
 const readById = async (id, collectionId) => {
-    try {
-        const data = await DATABASE.getDocument(DB_ID, collectionId, id);
-        data.requestedId = id;
-        return getResponseOK({ metaData, data });
-    } catch (errorData) {
-        return getResponseError('getDocumentById', errorData);
-    }
-};
-    
-  const update = async (id, payload, collectionId) => {
-    try {
-      const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
+  try {
+      const data = await DATABASE.getDocument(DB_ID, collectionId, id);
       data.requestedId = id;
       return getResponseOK({ metaData, data });
-    } catch (errorData) {
-      return getResponseError('updateDocument', errorData);
-    }
-  };
+  } catch (errorData) {
+      return getResponseError('getDocumentById', errorData);
+  }
+};
+
+
+const update = async (id, payload, collectionId) => {
+  log('Update');
+  log('DB_ID ' + DB_ID);
+  log('collectionId ' + collectionId);
+  log('id ' + id);
+  log('payload ' + toString(payload));
+
+  try {
+    const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
+    data.requestedId = id;
+    return getResponseOK({ metaData, data });
+  } catch (errorData) {
+    return getResponseError('updateDocument', errorData);
+  }
+};
   
   const deleteDocument = async (id, collectionId) => {
     try {
