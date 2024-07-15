@@ -1,6 +1,6 @@
 import { DATABASE, DB_ID } from './config/config.js'
 
-const VERSION = 'CRUD 2';
+const VERSION = 'CRUD 3';
 const metaData = {
   VERSION
 };
@@ -44,13 +44,6 @@ const getAllGroups = async (log) => {
 };
 
 export default async ({ req, res, log, error }) => {
-  log('PROJECT_ID: '+ PROJECT_ID);
-  log('API_KEY: '+ ETERNAL_API_KEY);
-  log('DB_ID: ' + DB_ID);
-  log('COLLECTION_GROUP_ID: ' + COLLECTION_GROUP_ID);
-  log('CLIENT: ' + JSON.stringify(CLIENT, null, 2));
-  log('DATABASE:' + JSON.stringify(DATABASE, null, 2));
-
   if (req.method === 'OPTIONS') {
     log('OPTIONS: ' + VERSION)
     return getResponseNotContent();
