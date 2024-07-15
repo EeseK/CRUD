@@ -4,7 +4,7 @@ const VERSION = 'CRUD 2';
 const metaData = {
   VERSION
 };
-// f710690d28da71ed0518de33c90c691dbdbfe93b94c4dd942ee7007caa5d57eff108708fb5dbd5c985b1320e3a2a0dd0ffb11a5d29f552bf5bc89d6720946466652928b7055cbafab8a94dc9b6f1a8ca3f40c7127d7a996758a703e08c6d2ce1685e2caca81e94aabe2fe29433f4dead0a3f7f279e27d1f0a6e0bba6485de6d4
+// 
 const ETERNAL_API_KEY = process.env.ETERNAL_API_KEY;
 const PROJECT_ID = process.env.PROJECT_ID;
 const DB_ID = process.env.DB_ID;
