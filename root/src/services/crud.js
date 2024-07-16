@@ -2,7 +2,7 @@ import { ID } from 'node-appwrite';
 import { DATABASE, DB_ID } from '../config/config.js';
 
 const metaData = {
-    VERSION: 'readAll 1'
+    VERSION: 'update'
 }
 
 function toString(object){
@@ -27,10 +27,9 @@ const create = async (payload, collectionId) => {
           id: rawResult.$id,
           name: rawResult.name
         };
-        log('data: ' + toString(data));
         return getResponseOK({ metaData, data });
     } catch (errorData) {
-        error('Error: ' + toString(errorData));
+        error(toString(errorData));
         return getResponseError('createDocument', errorData);
     }
 };
@@ -45,14 +44,21 @@ const readAll = async (collectionId) => {
         const data = filteredDocuments;
         return getResponseOK({ metaData, data });
     } catch (errorData) {
-        error(JSON.stringify(errorData));
+        error(toString(errorData));
         return getResponseError('readAll', errorData);
     }
 };
 
-/*
-/group/66958f8c1de5ca1dd3e1
-*/
+function getErrorResponseById(errorData, id, collectionId){
+  const isNotFound = 404 == errorData.code;
+  if(isNotFound){
+    return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
+  }else{
+    error('errorData: ' + toString(errorData));
+    return getResponseError(toString(errorData), errorData)
+  }
+}
+
 const readById = async (id, collectionId) => {
   try {
     log('readById');
@@ -70,29 +76,20 @@ const readById = async (id, collectionId) => {
       return getResponseOK({ metaData, data:{} });
 
   } catch (errorData) {
-    log('errorData: ' + toString(errorData));
-    const isNotFound = 404 == errorData.code;
-    log('isNotFound: ' + isNotFound);
-
-    if(isNotFound){
-      log('Document not found');
-      return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
-    }else{
-        error('errorData: ' + toString(errorData));
-        return getResponseError(toString(errorData), errorData)
-      }
+    return getErrorResponseById(errorData, id, collectionId);
   }
 };
 
-
+/*
+/group/66958f8c1de5ca1dd3e1
+*/
 const update = async (id, payload, collectionId) => {
-
   try {
     const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
     data.requestedId = id;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    return getResponseError('updateDocument', errorData);
+    return getErrorResponseById(errorData, id, collectionId);
   }
 };
   

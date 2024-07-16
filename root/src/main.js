@@ -1,23 +1,24 @@
 import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create, readAll, readById, setLogAndError } from './services/crud.js'
+import { create, readAll, readById, update, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 15 - id not found';
+const VERSION = 'CRUD 17 - upate id found';
 const metaData = {
   VERSION
 };
 
 const COLLECTION_GROUP_ID = 'group';
+const COLLECTION_SUBGROUP_ID = 'subgroup';
 
 export default async ({ req, res, log, error }) => {
   setLogAndError(log, error);
-  log('VERSION: ' + VERSION)
   if (req.method === 'OPTIONS') {
-    log('OPTIONS: ' + VERSION)
     return getResponseNotContent();
   }
 
   const parameters = req.path.split('/');
+  const [ none, paramCollection, paramId,  ] = parameters;
+  
 
   if (req.method === 'POST') {
     const { payload, action } = JSON.parse(req.body);
@@ -27,21 +28,16 @@ export default async ({ req, res, log, error }) => {
   }
   
   if (req.method === 'GET') {
-    const [ none, collection, id ] = parameters;
-    log('colection: ' + collection);
-    log('id: ' + id);
-    if(null == id){
-      log('readAll');
+    if(null == paramId){
       return await readAll( COLLECTION_GROUP_ID );
     }else{
-      log('readById');
-      return await readById(id, COLLECTION_GROUP_ID);
+      return await readById(paramId, COLLECTION_GROUP_ID);
     }
   }
 
-  if (req.method === 'PUT') {
-    const { id, payload, action } = JSON.parse(req.body);
-    return await updateDocument(id, payload);
+  if (req.method === 'PATCH' && null != paramId) {
+    const { payload } = JSON.parse(req.body);
+    return await update(paramId, payload, COLLECTION_GROUP_ID);
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });
