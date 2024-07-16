@@ -1,8 +1,8 @@
 import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create, readAll, readById, update, setLogAndError } from './services/crud.js'
+import { create, readAll, readById, update, deleteDocument, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 22 - upate not found';
+const VERSION = 'CRUD 23 - delete found';
 const metaData = {
   VERSION
 };
@@ -45,10 +45,13 @@ export default async ({ req, res, log, error }) => {
   }
   */
   if (req.method === 'PATCH' && null != paramId) {
-    log('main PATH paramId:' + paramId);
     const { payload } = JSON.parse(req.body);
-    log('main PATH payload:' + JSON.stringify(payload, null, 2));
     return await update(paramId, payload, COLLECTION_GROUP_ID);
+  }
+
+  if (req.method === 'DELETE' && null != paramId) {
+    log('main DELETE paramId:' + paramId);
+    return await deleteDocument(paramId);
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });

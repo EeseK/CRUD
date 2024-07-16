@@ -2,7 +2,7 @@ import { ID } from 'node-appwrite';
 import { DATABASE, DB_ID } from '../config/config.js';
 
 const metaData = {
-    VERSION: 'update'
+    VERSION: 'delete'
 }
 
 function toString(object){
@@ -76,7 +76,7 @@ const readById = async (id, collectionId) => {
 };
 
 /*
-/group/66958f8c1de5ca1dd3e1
+/group/6695902b2a7bdc08a5d6
 */
 const update = async (id, payload, collectionId) => {
   log('crud update id: ' + id);
