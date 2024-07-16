@@ -27,7 +27,8 @@ const create = async (payload, collectionId) => {
           id: rawResult.$id,
           name: rawResult.name
         };
-        return getResponseOK({ metaData, data });
+        const response = getResponseOK({ metaData, data });
+        return response
     } catch (errorData) {
         error(toString(errorData));
         return getResponseError('createDocument', errorData);
@@ -50,11 +51,13 @@ const readAll = async (collectionId) => {
 };
 
 function getErrorResponseById(errorData, id, collectionId){
-  log('getErrorResponseById ' + JSON.stringify(errorData, null, 2));
+  log('getErrorResponseById ' + toString(errorData));
   const isNotFound = 404 == errorData.code;
   if(isNotFound){
-    log('isNotFound');
-    return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
+    log('getErrorResponseById isNotFound id: ' + id + ' collectionId: ' +collectionId );
+    const response = getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`});
+    log('getErrorResponseByIdresponse: ' + toString(response) );
+    return response
   }else{
     error('errorData: ' + toString(errorData));
     return getResponseError(toString(errorData), errorData)
@@ -95,14 +98,14 @@ const update = async (id, payload, collectionId) => {
     try {
       log('crud delete try');
       const data = await DATABASE.deleteDocument(DB_ID, collectionId, id);
-      log('crud delete data ' + JSON.stringify(data, null, 2));
+      log('crud delete data ' + toString(data));
       const response = getResponseOK({ metaData, data: {id} });
-      log('crud delete response ' + JSON.stringify(response, null, 2));
+      log('crud delete response ' +toString(response));
       return response
     } catch (errorData) {
-      log('crud delete catch errorData: ' + JSON.stringify(errorData, null, 2));
+      log('crud delete catch errorData: ' + toString(errorData));
       const response = getResponseError('deleteDocument', errorData);
-      log('crud delete catch response: ' + JSON.stringify(response, null, 2));
+      log('crud delete catch response: ' + toString(response));
       return response
     }
   };
