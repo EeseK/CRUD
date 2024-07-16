@@ -18,7 +18,8 @@ export default async ({ req, res, log, error }) => {
 
   const parameters = req.path.split('/');
   const [ none, paramCollection, paramId,  ] = parameters;
-  
+  log('paramCollection: ' + paramCollection);
+  log('paramId: ' + paramId);
 
   if (req.method === 'POST') {
     const { payload, action } = JSON.parse(req.body);
