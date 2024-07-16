@@ -90,7 +90,7 @@ const update = async (id, payload, collectionId) => {
     return getResponseOK({ metaData, data:{id:data.$id, name:data.name} });
   } catch (errorData) {
     const response = getErrorResponseById(errorData, id, collectionId);
-    log('Error >===> response '+JSON.stringify(errorData, null, 2));
+    log('Error >===> response '+JSON.stringify(response, null, 2));
     return response
   }
 };
