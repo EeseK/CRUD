@@ -6,17 +6,9 @@ import { crud as subgroupCRUD } from './entities/subgroupCRUD.js'
 import { crud as storeCRUD } from './entities/groupCRUD.js'
 import { crud as group__subgroup__storeCRUD } from './entities/group__subgroup__storeCRUD.js'
 
-const VERSION = 'CRUD TEMPLATES 2';
-const metaData = {
-  VERSION
-};
-
-
-const COLLECTION_STORE_ID = 'store';
+const VERSION = 'CRUD TEMPLATES 3';
 
 export default async ({ req, log, error }) => {
-  setLogAndError(log, error);
-
   if (req.method === 'OPTIONS') {
     return getResponseNotContent();
   }
