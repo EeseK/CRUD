@@ -6,7 +6,7 @@ import { crud as subgroupCRUD } from './entities/subgroupCRUD.js'
 import { crud as storeCRUD } from './entities/groupCRUD.js'
 import { crud as group__subgroup__storeCRUD } from './entities/group__subgroup__storeCRUD.js'
 
-const VERSION = 'CRUD TEMPLATES 1';
+const VERSION = 'CRUD TEMPLATES 2';
 const metaData = {
   VERSION
 };

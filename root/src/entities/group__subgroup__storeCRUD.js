@@ -1,4 +1,4 @@
-import { create, readAll, readById, update, deleteDocument, setLogAndError } from './services/crud.js'
+import { create, readAll, readById, update, deleteDocument, setLogAndError } from '../services/crud.js'
 const COLLECTION_ID = 'group__subgroup__store';
 
 async function handler ( req, paramId, log, error ) {
