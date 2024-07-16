@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, readById, update, deleteDocument, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 25 - delete found';
+const VERSION = 'CRUD 26 - delete found';
 const metaData = {
   VERSION
 };
@@ -51,7 +51,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'DELETE' && null != paramId) {
     log('main DELETE paramId:' + paramId);
-    return await deleteDocument(paramId);
+    return await deleteDocument(paramId, COLLECTION_GROUP_ID);
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });
