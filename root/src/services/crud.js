@@ -50,8 +50,10 @@ const readAll = async (collectionId) => {
 };
 
 function getErrorResponseById(errorData, id, collectionId){
+  log('getErrorResponseById ' + JSON.stringify(errorData, null, 2));
   const isNotFound = 404 == errorData.code;
   if(isNotFound){
+    log('isNotFound');
     return getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`})
   }else{
     error('errorData: ' + toString(errorData));
@@ -83,12 +85,12 @@ const update = async (id, payload, collectionId) => {
   try {
     log('crud update try');
     const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
-    log('crud update data '+JSON.stringify(data, null, 2));
+    log('crud update data))))))) '+JSON.stringify(data, null, 2));
     data.requestedId = id;
     return getResponseOK({ metaData, data:{id:data.$id, name:data.name} });
   } catch (errorData) {
     const response = getErrorResponseById(errorData, id, collectionId);
-    log('Error response '+JSON.stringify(errorData, null, 2));
+    log('Error >===> response '+JSON.stringify(errorData, null, 2));
     return response
   }
 };
