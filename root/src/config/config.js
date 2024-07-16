@@ -11,4 +11,4 @@ CLIENT
 const DATABASE = new Databases(CLIENT);
 const DB_ID = process.env.DB_ID;
 
-export { DATABASE, DB_ID }
+export { DATABASE, DB_ID, CLIENT }

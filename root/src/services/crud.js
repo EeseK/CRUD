@@ -1,15 +1,16 @@
 import { ID } from 'node-appwrite';
 import { DATABASE, DB_ID } from '../config/config.js';
+import { getResponseOK, getResponseError } from '../responses/responses.js'
 
 const metaData = {
-    VERSION: 'delete'
+  VERSION: 'CRUD 1'
 }
 
 function toString(object){
-  return JSON.stringify(object, null, 2);
+return JSON.stringify(object, null, 2);
 }
 
-let log = ()=>{};
+let log   = ()=>{};
 let error = ()=>{};
 
 function setLogAndError(logToSet, errorToSet){
@@ -17,98 +18,133 @@ function setLogAndError(logToSet, errorToSet){
   error = errorToSet;
 }
 
-import { getResponseOK, getResponseError, getResponseNotFound } from '../responses/responses.js'
-
-const create = async (payload, collectionId) => {
-    const documentId = ID.unique();
-    try {
-        const rawResult = await DATABASE.createDocument(DB_ID, collectionId, documentId, payload);
-        const data = {
-          id: rawResult.$id,
-          name: rawResult.name
-        };
-        const response = getResponseOK({ metaData, data });
-        return response
-    } catch (errorData) {
-        error(toString(errorData));
-        return getResponseError('createDocument', errorData);
-    }
-};
-
-const readAll = async (collectionId) => {
-    try {
-        const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
-        const filteredDocuments = documents.map(doc => ({
-        id: doc.$id,
-        name: doc.name
-        }));
-        const data = filteredDocuments;
-        return getResponseOK({ metaData, data });
-    } catch (errorData) {
-        error(toString(errorData));
-        return getResponseError('readAll', errorData);
-    }
-};
-
-function getErrorResponseById(errorData, id, collectionId){
-  log('getErrorResponseById ' + toString(errorData));
+function getErrorResponseById(errorData, id, collectionId, metaData){
   const isNotFound = 404 == errorData.code;
   if(isNotFound){
-    log('getErrorResponseById isNotFound id: ' + id + ' collectionId: ' +collectionId );
-    const response = getResponseOK({error:404, description:`readById: the id ${id} was not found in collection: ${collectionId}.`});
-    log('getErrorResponseByIdresponse: ' + toString(response) );
-    return response
+    const data = getResponseOK({
+                                    error:404,
+                                    description:`readById: the id ${id} was not found in collection: ${collectionId}.`
+                                  });
+    return {data, metaData}
   }else{
     error('errorData: ' + toString(errorData));
-    return getResponseError(toString(errorData), errorData)
+    return getResponseError(toString(errorData),
+                            errorData)
   }
 }
 
-const readById = async (id, collectionId) => {
+const create = async (payload, collectionId) => {
+  metaData.action       = "create";
+  metaData.collectionId = collectionId;
+
+  const documentId      = ID.unique();
+
   try {
-      const result = await DATABASE.getDocument(DB_ID, collectionId, id);
-      const data = {
-        id: result.$id,
-        name: result.name
-      }
-      return getResponseOK({ metaData, data:{} });
+    const result = await DATABASE.createDocument( DB_ID, 
+                                                  collectionId,
+                                                  documentId,
+                                                  payload);
+
+    const data = {
+      id:   result.$id,
+      name: result.name
+    };
+
+    return getResponseOK({ metaData, data });
 
   } catch (errorData) {
-    return getErrorResponseById(errorData, id, collectionId);
+      error(toString(errorData));
+      return getResponseError('createDocument', {data:errorData, metaData});
   }
 };
 
-/*
-/group/6695902b2a7bdc08a5d6
-*/
-const update = async (id, payload, collectionId) => {
+const readAll = async (collectionId) => {
+  metaData.action       = "readAll";
+  metaData.collectionId = collectionId;
   try {
-    const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
-    data.requestedId = id;
-    return getResponseOK({ metaData, data:{id:data.$id, name:data.name} });
+    const { documents } = await DATABASE.listDocuments(DB_ID, collectionId);
+    const filteredDocuments = documents.map(doc => ({
+                                                      id:   doc.$id,
+                                                      name: doc.name
+                                                    }));
+
+    const data = filteredDocuments;
+    return getResponseOK({ metaData, data });
+
   } catch (errorData) {
-    const response = getErrorResponseById(errorData, id, collectionId);
-    return response
+      error(toString(errorData));
+      return getResponseError('readAll', errorData);
+  }
+};
+
+const readById = async (id, collectionId) => {
+  metaData.action       = "readById";
+  metaData.collectionId = collectionId;
+
+  try {
+    const result = await DATABASE.getDocument(DB_ID,
+                                              collectionId,
+                                              id);
+
+    const data = {
+      id: result.$id,
+      name: result.name
+    }
+    
+    return getResponseOK({ metaData, data });
+
+  } catch (errorData) {
+    return getErrorResponseById(errorData,
+                                id,
+                                collectionId,
+                                metaData);
+  }
+};
+
+const update = async (id, payload, collectionId) => {
+  metaData.action       = "update";
+  metaData.collectionId = collectionId;
+
+  try {
+    const result = await DATABASE.updateDocument( DB_ID,
+                                                  collectionId,
+                                                  id,
+                                                  payload);
+
+    const data = {
+      id:  result.$id,
+      name:result.name
+    }
+
+    return getResponseOK({ metaData, data });
+
+  } catch (errorData) {
+    return getErrorResponseById(errorData,
+                                id,
+                                collectionId,
+                                metaData);
   }
 };
   
-  const deleteDocument = async (id, collectionId) => {
-    log('crud delete id: ' + id);
-    log('crud delete collectionId: ' + collectionId);
-    try {
-      log('crud delete try');
-      const data = await DATABASE.deleteDocument(DB_ID, collectionId, id);
-      log('crud delete data ' + toString(data));
-      const response = getResponseOK({ metaData, data: {id} });
-      log('crud delete response ' +toString(response));
-      return response
-    } catch (errorData) {
-      log('crud delete catch errorData: ' + toString(errorData));
-      const response = getErrorResponseById(errorData, id, collectionId);
-      log('crud delete catch response: ' + toString(response));
-      return response
-    }
-  };
+const deleteDocument = async (id, collectionId) => {
+  metaData.action       = "delete";
+  metaData.collectionId = collectionId;
+
+  try {
+    const result = await DATABASE.deleteDocument(DB_ID, collectionId, id);
+    const data = {
+                  id
+                }
+    return getResponseOK({ metaData, data });
+
+  } catch (errorData) {
+
+    return getErrorResponseById(errorData,
+                                id,
+                                collectionId,
+                                metaData);
+  }
+};
 
   export { 
             setLogAndError,

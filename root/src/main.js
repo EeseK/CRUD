@@ -1,57 +1,50 @@
-import { DATABASE, DB_ID } from './config/config.js'
+import { CLIENT } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
-import { create, readAll, readById, update, deleteDocument, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD ALL GOOD';
+import { crud as groupCRUD } from './entities/groupCRUD.js'
+import { crud as subgroupCRUD } from './entities/subgroupCRUD.js'
+import { crud as storeCRUD } from './entities/groupCRUD.js'
+import { crud as group__subgroup__storeCRUD } from './entities/group__subgroup__storeCRUD.js'
+
+const VERSION = 'CRUD TEMPLATES 1';
 const metaData = {
   VERSION
 };
 
-const COLLECTION_GROUP_ID = 'group';
-const COLLECTION_SUBGROUP_ID = 'subgroup';
 
-export default async ({ req, res, log, error }) => {
+const COLLECTION_STORE_ID = 'store';
+
+export default async ({ req, log, error }) => {
   setLogAndError(log, error);
+
   if (req.method === 'OPTIONS') {
     return getResponseNotContent();
   }
 
   const parameters = req.path.split('/');
   const [ none, paramCollection, paramId,  ] = parameters;
+
   log('paramCollection: ' + paramCollection);
   log('paramId: ' + paramId);
 
-  if (req.method === 'POST') {
-    const { payload, action } = JSON.parse(req.body);
-    if (!action) {
-      return await create(payload, COLLECTION_GROUP_ID);
-    }
-  }
-  
-  if (req.method === 'GET') {
-    if(null == paramId){
-      return await readAll( COLLECTION_GROUP_ID );
-    }else{
-      return await readById(paramId, COLLECTION_GROUP_ID);
-    }
+  if(groupCRUD.id === paramCollection){
+    groupCRUD.handler(req, paramId,log,error);
   }
 
-  /*
-  /group/66958f8c1de5ca1dd3e1
-  {
-    "payload":{
-      "name": "HALLOWED BE THE NAME"
-    }
-  }
-  */
-  if (req.method === 'PATCH' && null != paramId) {
-    const { payload } = JSON.parse(req.body);
-    return await update(paramId, payload, COLLECTION_GROUP_ID);
+  if(subgroupCRUD.id === paramCollection){
+    subgroupCRUD.handler(req, paramId,log,error);
   }
 
-  if (req.method === 'DELETE' && null != paramId) {
-    log('main DELETE paramId:' + paramId);
-    return await deleteDocument(paramId, COLLECTION_GROUP_ID);
+  if(storeCRUD.id === paramCollection){
+    storeCRUD.handler(req, paramId,log,error);
+  }
+
+  if(storeCRUD.id === paramCollection){
+    storeCRUD.handler(req, paramId,log,error);
+  }
+
+  if(group__subgroup__storeCRUD.id === paramCollection){
+    group__subgroup__storeCRUD.handler(req, paramId,log,error);
   }
 
   return getResponseNotAllowed({ error: 'Method not allowed' });
