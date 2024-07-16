@@ -79,28 +79,26 @@ const readById = async (id, collectionId) => {
 /group/6695902b2a7bdc08a5d6
 */
 const update = async (id, payload, collectionId) => {
-  log('crud update id: ' + id);
-  log('crud update payload: ' + JSON.stringify(payload, null, 2));
-  log('crud update collectionId: ' + collectionId);
   try {
-    log('crud update try');
     const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
-    log('crud update data))))))) '+JSON.stringify(data, null, 2));
     data.requestedId = id;
     return getResponseOK({ metaData, data:{id:data.$id, name:data.name} });
   } catch (errorData) {
     const response = getErrorResponseById(errorData, id, collectionId);
-    log('Error >===> response '+JSON.stringify(response, null, 2));
     return response
   }
 };
   
   const deleteDocument = async (id, collectionId) => {
+    log('crud delete id: ' + id);
+    log('crud delete collectionId: ' + collectionId);
     try {
+      log('crud delete try');
       const data = await DATABASE.deleteDocument(DB_ID, collectionId, id);
-      data.requestedId = id;
-      return getResponseOK({ metaData, data });
+      log('crud delete data ' + JSON.stringify(data, null, 2));
+      return getResponseOK({ metaData, data: {id:data.$id} });
     } catch (errorData) {
+      log('crud delete error ' + JSON.stringify(errorData, null, 2));
       return getResponseError('deleteDocument', errorData);
     }
   };
