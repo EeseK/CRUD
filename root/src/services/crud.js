@@ -104,7 +104,7 @@ const update = async (id, payload, collectionId) => {
       return response
     } catch (errorData) {
       log('crud delete catch errorData: ' + toString(errorData));
-      const response = getResponseError('deleteDocument', errorData);
+      const response = getErrorResponseById(errorData, id, collectionId);
       log('crud delete catch response: ' + toString(response));
       return response
     }
