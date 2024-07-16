@@ -61,14 +61,7 @@ function getErrorResponseById(errorData, id, collectionId){
 
 const readById = async (id, collectionId) => {
   try {
-    log('readById');
-    log('DB_ID ' + DB_ID);
-    log('collectionId ' + collectionId);
-    log('id ' + id);
-    log('CALL TO DATABASE')
       const result = await DATABASE.getDocument(DB_ID, collectionId, id);
-      log('result: ' + toString(result));
-    
       const data = {
         id: result.$id,
         name: result.name
@@ -84,10 +77,15 @@ const readById = async (id, collectionId) => {
 /group/66958f8c1de5ca1dd3e1
 */
 const update = async (id, payload, collectionId) => {
+  log('crud update id: ' + id);
+  log('crud update payload: ' + JSON.stringify(payload, null, 2));
+  log('crud update collectionId: ' + collectionId);
   try {
+    log('crud update try');
     const data = await DATABASE.updateDocument(DB_ID, collectionId, id, payload);
+    log('crud update data '+JSON.stringify(data, null, 2));
     data.requestedId = id;
-    return getResponseOK({ metaData, data });
+    return getResponseOK({ metaData, data:{id:data.$id, name:data.name} });
   } catch (errorData) {
     return getErrorResponseById(errorData, id, collectionId);
   }
