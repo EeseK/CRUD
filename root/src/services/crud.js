@@ -98,8 +98,10 @@ const update = async (id, payload, collectionId) => {
       log('crud delete data ' + JSON.stringify(data, null, 2));
       return getResponseOK({ metaData, data: {id:data.$id} });
     } catch (errorData) {
-      log('crud delete error ' + JSON.stringify(errorData, null, 2));
-      return getResponseError('deleteDocument', errorData);
+      log('crud delete catch errorData: ' + JSON.stringify(errorData, null, 2));
+      const response = getResponseError('deleteDocument', errorData);
+      log('crud delete catch response: ' + JSON.stringify(response, null, 2));
+      return response
     }
   };
 

@@ -2,7 +2,7 @@ import { DATABASE, DB_ID } from './config/config.js'
 import { getResponseNotContent, getResponseNotAllowed } from './responses/responses.js'
 import { create, readAll, readById, update, deleteDocument, setLogAndError } from './services/crud.js'
 
-const VERSION = 'CRUD 26 - delete found';
+const VERSION = 'CRUD 27 - delete found';
 const metaData = {
   VERSION
 };
