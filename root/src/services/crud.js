@@ -96,7 +96,9 @@ const update = async (id, payload, collectionId) => {
       log('crud delete try');
       const data = await DATABASE.deleteDocument(DB_ID, collectionId, id);
       log('crud delete data ' + JSON.stringify(data, null, 2));
-      return getResponseOK({ metaData, data: {id:data.$id} });
+      const response = getResponseOK({ metaData, data: {id} });
+      log('crud delete response ' + JSON.stringify(response, null, 2));
+      return response
     } catch (errorData) {
       log('crud delete catch errorData: ' + JSON.stringify(errorData, null, 2));
       const response = getResponseError('deleteDocument', errorData);
