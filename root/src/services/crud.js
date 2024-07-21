@@ -58,7 +58,6 @@ const create = async (payload, collectionId) => {
 
   } catch (errorData) {
       log('\t\t3. errorData' + toString(errorData));
-
       error(toString(errorData));
       const responseError = getResponseError('createDocument', {data:errorData, metaData});
       log('\t\t3. responseError' + toString(responseError));
