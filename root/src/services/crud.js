@@ -34,28 +34,20 @@ function getErrorResponseById(errorData, id, collectionId, metaData){
 }
 
 const create = async (payload, collectionId) => {
-  log('\t\t3. crud create');
   metaData.action       = "create";
   metaData.collectionId = collectionId;
 
-  if(null == payload){
-    error('\t\t3.crud payload is undefined');
-    return getResponseError('Function error');
-  }
-
-  if(null == payload.name || '' == payload.name){
-    error('\t\t3.crud payload.name not valid, got: ' + payload.name);
-    return getResponseError('Function error');
-  }
-
+  
   const documentId      = ID.unique();
-
+  
   try {
-    log('\t\t3. try');
-    log('\t\t3. DB_ID: ' + toString(DB_ID) );
-    log('\t\t3.collectionId: ' + collectionId);
-    log('\t\t3. documentId: ' + documentId);
-    log('\t\t3. payload: ' + toString(payload));
+    if(null == payload){
+      throw new Error('Function error');
+    }
+  
+    if(null == payload.name || '' == payload.name){
+      throw new Error('Function error');
+    }
     const result = await DATABASE.createDocument( DB_ID, 
                                                   collectionId,
                                                   documentId,
@@ -66,12 +58,9 @@ const create = async (payload, collectionId) => {
       name: result.name
     };
 
-    log('\t\t3. result' + toString(result));
-
     return getResponseOK({ metaData, data });
 
   } catch (errorData) {
-      log('\t\t3. catch errorData' + toString(errorData));
       error(toString(errorData));
       const responseError = getResponseError('Server Error');
       return  responseError

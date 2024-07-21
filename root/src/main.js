@@ -12,15 +12,11 @@ export default async ({ req, log, error }) => {
   if (req.method === 'OPTIONS') {
     return getResponseNotContent();
   }
-  log('1. main')
+  
   const parameters = req.path.split('/');
   const [ none, paramCollection, paramId,  ] = parameters;
 
-  log('paramCollection: ' + paramCollection);
-  log('paramId: ' + paramId);
-
   if(groupCRUD.id === paramCollection){
-    log('1. Is GROUP')
     return await groupCRUD.handler(req, paramId,log,error);
   }
 

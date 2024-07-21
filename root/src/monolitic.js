@@ -34,12 +34,10 @@ const createResponse = (statusCode, body, additionalHeaders = {}) => ({
 
 const getAllReservationList = async (log) => {
   try {
-    log('try')
     const { documents } = await DATABASE.listDocuments(DB_ID, COLLECTION_GROUP_ID);
     const data = documents;
     return getResponseOK({ metaData, data });
   } catch (errorData) {
-    log('error' + JSON.stringify(errorData, null, 2));
     return createResponse(500, { error: 'getAllReservationList', details: errorData });
   }
 };
@@ -91,7 +89,6 @@ const deleteDocument = async (id) => {
 
 export default async ({ req, res, log, error }) => {
   if (req.method === 'OPTIONS') {
-    log('OPTIONS: ' + VERSION)
     return createResponse(204, '');
   }
 
@@ -103,7 +100,6 @@ export default async ({ req, res, log, error }) => {
   }
 
   if (req.method === 'GET') {
-    log('GET: ' + VERSION)
     return await getAllReservationList(log);
   }
 
