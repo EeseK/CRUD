@@ -42,6 +42,10 @@ const create = async (payload, collectionId) => {
 
   try {
     log('\t\t3. try');
+    log('\t\t3. DB_ID: ' + toString(DB_ID) );
+    log('\t\t3.collectionId: ' + collectionId);
+    log('\t\t3. documentId: ' +d ocumentId);
+    log('\t\t3. payload: ' + toString(payload));
     const result = await DATABASE.createDocument( DB_ID, 
                                                   collectionId,
                                                   documentId,
@@ -57,7 +61,7 @@ const create = async (payload, collectionId) => {
     return getResponseOK({ metaData, data });
 
   } catch (errorData) {
-      log('\t\t3. errorData' + toString(errorData));
+      log('\t\t3. catch errorData' + toString(errorData));
       error(toString(errorData));
       const responseError = getResponseError('createDocument', {data:errorData, metaData});
       log('\t\t3. responseError' + toString(responseError));
