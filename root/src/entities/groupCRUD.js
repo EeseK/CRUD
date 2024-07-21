@@ -3,8 +3,9 @@ const COLLECTION_ID = 'group';
 
 async function handler ( req, paramId, log, error ) {
     setLogAndError(log, error);
-
+    log('\t2. groupCRUD');
     if (req.method === 'POST') {
+        log('\t2. groupCRUD POST');
         const { payload } = JSON.parse(req.body);
         return await create(payload, COLLECTION_ID);
     }

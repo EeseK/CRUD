@@ -34,6 +34,7 @@ function getErrorResponseById(errorData, id, collectionId, metaData){
 }
 
 const create = async (payload, collectionId) => {
+  log('\t\t3. crud create');
   metaData.action       = "create";
   metaData.collectionId = collectionId;
 
