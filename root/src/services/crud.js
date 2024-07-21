@@ -38,6 +38,16 @@ const create = async (payload, collectionId) => {
   metaData.action       = "create";
   metaData.collectionId = collectionId;
 
+  if(null == payload){
+    error('\t\t3.crud payload is undefined');
+    return getResponseError('Function error');
+  }
+
+  if(null == payload.name || '' == payload.name){
+    error('\t\t3.crud payload.name not valid, got: ' + payload.name);
+    return getResponseError('Function error');
+  }
+
   const documentId      = ID.unique();
 
   try {
@@ -63,8 +73,7 @@ const create = async (payload, collectionId) => {
   } catch (errorData) {
       log('\t\t3. catch errorData' + toString(errorData));
       error(toString(errorData));
-      const responseError = getResponseError('createDocument', {data:errorData, metaData});
-      log('\t\t3. responseError' + toString(responseError));
+      const responseError = getResponseError('Server Error');
       return  responseError
   }
 };
