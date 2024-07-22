@@ -4,7 +4,6 @@ import { getResponseNotContent, getResponseNotAllowed } from './responses/respon
 import { crud as groupCRUD } from './entities/groupCRUD.js'
 import { crud as subgroupCRUD } from './entities/subgroupCRUD.js'
 import { crud as storeCRUD } from './entities/groupCRUD.js'
-import { crud as group__subgroup__storeCRUD } from './entities/group__subgroup__storeCRUD.js'
 
 const VERSION = 'CRUD TEMPLATES 5';
 
@@ -14,27 +13,19 @@ export default async ({ req, log, error }) => {
   }
   
   const parameters = req.path.split('/');
-  const [ none, paramCollection, paramId,  ] = parameters;
+  const [ none, collectionId1, paramId1, collectionId2, paramId2 ] = parameters;
 
-  if(groupCRUD.id === paramCollection){
-    return await groupCRUD.handler(req, paramId,log,error);
+  if(groupCRUD.id === collectionId1){
+    return await groupCRUD.handler(req, paramId1,log,error);
   }
 
-  if(subgroupCRUD.id === paramCollection){
-    return await subgroupCRUD.handler(req, paramId,log,error);
+  if(subgroupCRUD.id === collectionId1){
+    return await subgroupCRUD.handler(req, paramId1,log,error);
   }
 
-  if(storeCRUD.id === paramCollection){
-    return await storeCRUD.handler(req, paramId,log,error);
+  if(storeCRUD.id === collectionId1){
+    return await storeCRUD.handler(req, paramId1,log,error);
   }
-
-  if(storeCRUD.id === paramCollection){
-    return await storeCRUD.handler(req, paramId,log,error);
-  }
-
-  if(group__subgroup__storeCRUD.id === paramCollection){
-    return await group__subgroup__storeCRUD.handler(req, paramId,log,error);
-  }
-
+  
   return getResponseNotAllowed({ error: 'Method not allowed' });
 };

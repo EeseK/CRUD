@@ -1,4 +1,4 @@
-import { ID } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 import { DATABASE, DB_ID } from '../config/config.js';
 import { getResponseOK, getResponseError } from '../responses/responses.js'
 
@@ -78,6 +78,7 @@ const readAll = async (collectionId) => {
                                                     }));
 
     const data = filteredDocuments;
+    metaData.success = true;
     return getResponseOK({ metaData, data });
 
   } catch (errorData) {
@@ -109,6 +110,27 @@ const readById = async (id, collectionId) => {
                                 metaData);
   }
 };
+
+const readWhere = async (collectionId, rawQueryList) => {
+  metaData.action       = "readWhere";
+  metaData.collectionId = collectionId;
+
+  const queryList = rawQueryList.map((query)=>{
+    const { attribute, patternList} = query;
+    return Query.equal(attribute, patternList)
+  });
+
+  try {
+    const { documents } = await DATABASE.listDocuments(DB_ID, collectionId, queryList);
+
+    const data = documents;
+    return getResponseOK({ metaData, data });
+
+  } catch (errorData) {
+      error(toString(errorData));
+      return getResponseError('readAll', errorData);
+  }
+}
 
 const update = async (id, payload, collectionId) => {
   metaData.action       = "update";
@@ -161,5 +183,6 @@ const deleteDocument = async (id, collectionId) => {
             readAll, 
             readById,
             update,
-            deleteDocument
+            deleteDocument,
+            readWhere
         }
